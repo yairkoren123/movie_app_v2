@@ -31,7 +31,7 @@ public class SlideshowFragment extends Fragment {
 
 
 
-    // random
+    //  random
 
     ArrayList<The_movies> the_moviesArrayList = new ArrayList<>();
 
