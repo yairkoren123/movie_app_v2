@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "687110446984",
+    "project_id": "drawertry",
+    "storage_bucket": "drawertry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687110446984:android:d314a86e445f274ea2243d",
+        "android_client_info": {
+          "package_name": "com.example.drawer_try"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687110446984-godhsouidkc8b2af9j3jqdpb67bmts31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzCKplDLfi_HhyLvhgiW6QY5WmgfZweE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687110446984-godhsouidkc8b2af9j3jqdpb67bmts31.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.drawer_try.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_watchlist"
+        android:name="com.example.drawer_try.ui.gallery.GalleryFragment"
+        android:label="@string/menu_love"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.drawer_try.ui.Search.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/search_fragment" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.drawer_try.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_random"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="com.example.drawer_try.ui.Setting.SettingFragment"
+        android:label="@string/menu_setting"
+        tools:layout="@layout/setting_fragment" />
+    <fragment
+        android:id="@+id/nav_add_friends"
+        android:name="com.example.drawer_try.ui.AddFreind.Add_Friends_Fragment"
+        android:label="@string/menu_add_friend"
+        tools:layout="@layout/add__friends__fragment" />
+    <fragment
+        android:id="@+id/nav_friends"
+        android:name="com.example.drawer_try.ui.FriendList.List_Friends_Fragment"
+        android:label="@string/menu_list_friends"
+        tools:layout="@layout/list__friends__fragment" />
+</navigation>
