@@ -3,8 +3,18 @@ package com.example.drawer_try.stuffs;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -45,7 +55,53 @@ public class Pic_Image_Activity extends AppCompatActivity {
         username = findViewById(R.id.email_pic_image);
 
 
-        Intent intent=getIntent();
+        // check on INTERNET Connection
+
+        if (!isconnected()) {
+            // no internet
+            Log.d("wifi", "onCreate: no ");
+            alert_dialog();
+        }else {
+            Log.d("wifi", "onCreate: yes ");
+
+        }
+        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                // network available
+                if (isconnected()){
+                    Log.d("wifi", "onCreate: yes ");
+                }
+
+            }
+            @Override
+            public void onLost(Network network) {
+                // network unavailable
+                try {
+                    alert_dialog();
+                } catch (Exception e) {
+                    Log.d("wifi", "Show Dialog: " + e.getMessage());
+                }
+                if (!isconnected()) {
+                    Log.d("wifi", "onCreate: no ");
+                }
+            }
+        };
+
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(networkCallback);
+        } else {
+            NetworkRequest request = new NetworkRequest.Builder()
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build();
+            connectivityManager.registerNetworkCallback(request, networkCallback);
+        }
+
+
+
+        Intent intent = getIntent();
         email_now = intent.getStringExtra(MainActivity.EXTRAEMAIL);
         username.setText(email_now);
 
@@ -140,6 +196,48 @@ public class Pic_Image_Activity extends AppCompatActivity {
 
             });
         }
+    }
+    public boolean isconnected(){
+        boolean connected = false;
+        ConnectivityManager connectivityManager1 = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager1.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager1.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+
+            return true;
+        }
+        else {
+            // don't have internet
+
+
+            return false;
+        }
+
+
+    }
+    public void alert_dialog(){
+
+        new AlertDialog.Builder(Pic_Image_Activity.this)
+                .setTitle("Error")
+                .setMessage("Internet not available, Cross check your internet connectivity and try again later...")
+                .setCancelable(false)
+                .setIcon(R.drawable.ic_baseline_wifi_off_24)
+                .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //finish();
+                        if (isconnected()){
+                            dialog.dismiss();
+
+                        }else {
+                            alert_dialog();
+                        }
+                    }
+                }).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        }).show();
     }
 
     private void msg(String text){

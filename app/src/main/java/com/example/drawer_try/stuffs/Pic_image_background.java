@@ -4,7 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +58,56 @@ public class Pic_image_background extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pic_image_background);
+
+
+
+
+
+        // check on INTERNET Connection
+
+        if (!isconnected()) {
+            // no internet
+            Log.d("wifi", "onCreate: no ");
+            alert_dialog();
+        }else {
+            Log.d("wifi", "onCreate: yes ");
+
+        }
+        ConnectivityManager.NetworkCallback networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(Network network) {
+                // network available
+                if (isconnected()){
+                    Log.d("wifi", "onCreate: yes ");
+                }
+
+            }
+            @Override
+            public void onLost(Network network) {
+                // network unavailable
+                try {
+                    alert_dialog();
+                } catch (Exception e) {
+                    Log.d("wifi", "Show Dialog: " + e.getMessage());
+                }
+                if (!isconnected()) {
+                    Log.d("wifi", "onCreate: no ");
+                }
+            }
+        };
+
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(networkCallback);
+        } else {
+            NetworkRequest request = new NetworkRequest.Builder()
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build();
+            connectivityManager.registerNetworkCallback(request, networkCallback);
+        }
+
+
 
 
         // set bar title
@@ -151,6 +210,48 @@ public class Pic_image_background extends AppCompatActivity {
         my_back_adpter my_back_adpter = new my_back_adpter(background_array_list,Pic_image_background.this);
         recyclerView.setAdapter(my_back_adpter);
 
+    }
+    public boolean isconnected(){
+        boolean connected = false;
+        ConnectivityManager connectivityManager1 = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager1.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager1.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+
+            return true;
+        }
+        else {
+            // don't have internet
+
+
+            return false;
+        }
+
+
+    }
+    public void alert_dialog(){
+
+        new AlertDialog.Builder(Pic_image_background.this)
+                .setTitle("Error")
+                .setMessage("Internet not available, Cross check your internet connectivity and try again later...")
+                .setCancelable(false)
+                .setIcon(R.drawable.ic_baseline_wifi_off_24)
+                .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //finish();
+                        if (isconnected()){
+                            dialog.dismiss();
+
+                        }else {
+                            alert_dialog();
+                        }
+                    }
+                }).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        }).show();
     }
 
     @Override
