@@ -73,6 +73,8 @@ public class ViewPagerAdpter extends PagerAdapter implements View.OnClickListene
                 msg("click on " + theMoviesArrayList.get(position).getTitle());
                 single_one.setValue_movie(theMoviesArrayList.get(position));
 
+
+
                 Log.d("URLhome", "onResponse: " + theMoviesArrayList.get(position).getId());
                 single_one.setThe_same_movie_id(theMoviesArrayList.get(position).getId());
 

@@ -41,7 +41,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static java.util.Collections.shuffle;
 
@@ -114,6 +119,7 @@ public class HomeFragment extends Fragment {
     String data = "";
     // Defining the Volley request queue that handles the URL request concurrently
     RequestQueue requestQueue;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -190,6 +196,8 @@ public class HomeFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(getContext());
         Log.d("current", "onClick: "+currntPage);
 
+
+
         get_movies();
 
         // Casts results into the TextView found within the main layout XML with id jsonData
@@ -243,6 +251,7 @@ public class HomeFragment extends Fragment {
                                     String image = jsonObject.getString("poster_path");
                                     String image_sec = jsonObject.getString("backdrop_path");
                                     movie_id = String.valueOf(jsonObject.getInt("id"));
+
 
 
                                     // put values in class movies
@@ -361,7 +370,6 @@ public class HomeFragment extends Fragment {
             adpter_pager = new ViewPagerAdpter(getContext(), the_moviesArrayList_adpter);
 
 
-
             pager_images_movies.setAdapter(adpter_pager);
 
             Log.d("222", "next_level: " + pager_images_movies.getCurrentItem());
@@ -374,7 +382,7 @@ public class HomeFragment extends Fragment {
             pager_images_movies.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    Log.d("222", "next_level: " + pager_images_movies.getCurrentItem());
+                    Log.d("2223", "next_level: " + pager_images_movies.getCurrentItem());
 
                 }
 
@@ -405,10 +413,11 @@ public class HomeFragment extends Fragment {
 
                 }
             });
+
             pager_images_movies.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("3333", "onClick: click pager " + currntPage);
+                    Log.d("33334", "onClick: click pager " + currntPage);
                 }
             });
         }else if (currntPage > 3){
@@ -417,6 +426,8 @@ public class HomeFragment extends Fragment {
             pager_images_movies.setVisibility(View.GONE);
             name_of_image.setVisibility(View.GONE);
             pager_mail.setVisibility(View.GONE);
+            the_next_pages.setVisibility(View.VISIBLE);
+
 
 
         }
@@ -431,18 +442,19 @@ public class HomeFragment extends Fragment {
         gridView.setAdapter(adapter);
 
 
-        gridView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                Log.d("croll", "onScrollChange: " + oldScrollX + " y : " + oldScrollY);
-                if (scrollY > 30){
-                    pager_images_movies.setVisibility(View.GONE);
-                }else {
-                    pager_images_movies.setVisibility(View.VISIBLE);
 
-                }
-            }
-        });
+//        gridView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                Log.d("croll", "onScrollChange: " + oldScrollX + " y : " + oldScrollY + " " + scrollY + " " + scrollX);
+//                if (scrollY > 30){
+//                    pager_images_movies.setVisibility(View.GONE);
+//                }else {
+//                    pager_images_movies.setVisibility(View.VISIBLE);
+//
+//                }
+//            }
+//        });
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -466,6 +478,7 @@ public class HomeFragment extends Fragment {
 
                 the_frag_of_overview = getView().findViewById(R.id.mail_countener9);
                 the_frag_of_overview.setVisibility(View.VISIBLE);
+                the_next_pages.setVisibility(View.INVISIBLE);
 
                 Single_one single_one = Single_one.getInstance();
                 single_one.setThe_now_open_drawer("overview");
@@ -500,10 +513,6 @@ public class HomeFragment extends Fragment {
             the_next_pages.callOnClick();
         }
         progressDialog.dismiss();
-
-
-
-
     }
 
 

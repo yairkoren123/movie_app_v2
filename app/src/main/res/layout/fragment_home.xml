@@ -52,6 +52,7 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <GridView
@@ -70,7 +71,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2_pager" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2_pager" >
+
+    </GridView>
 
     <FrameLayout
         android:id="@+id/mail_countener9"
@@ -79,7 +82,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/add_page"

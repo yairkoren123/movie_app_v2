@@ -54,6 +54,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.ActionMenuItem;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -86,6 +87,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+// api key = 2029d84f820b9dc29ab83773c31b4320
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -182,10 +185,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
-
-
-
         if (!isconnected()) {
             // no internet
             Log.d("wifi", "onCreate: no ");
@@ -264,9 +263,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                Log.d("meee", "onNavigationItemSelected: " + item.getTitle());
+                Log.d("meee", "onNavigationItemSelected: " + item.getItemId());
                 return true;
-            }
+        }
 
 //            @Override
 //            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {

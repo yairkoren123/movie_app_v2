@@ -114,6 +114,12 @@ public class Search_Account_Fragment extends Fragment {
             search_by_text = true;
         }
 
+        if (text.length() >= 2 ) {
+            Log.d("6cou", "onClick: text have '@' text : " + text);
+            search_by_text = true;
+        }
+
+
         get_accounts();
 
     }
@@ -177,10 +183,10 @@ public class Search_Account_Fragment extends Fragment {
 
                             }
 
-                            else if (shopping.getEmail().equals(text)) {
+                            else if (shopping.getEmail().contains(text)) {
                                 // by text
 
-
+                                Log.d("sec111", "onSuccess: by text " + shopping.getEmail());
                                 Log.d("snal123", "onSuccess: " + snapshots.toString());
                                 Log.d("sec123", "onSuccess: target on : " + snapshots.getId());
 
@@ -199,7 +205,7 @@ public class Search_Account_Fragment extends Fragment {
 
 
                                 Log.d("data123", "onSuccess: " + shopping.getThe_moviesArrayList().toString());
-                                break;
+//                                break;
                             }
                         }else {
                             // the size of the search

@@ -35,7 +35,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Fragment_the_movie_overview extends Fragment {
@@ -51,6 +56,9 @@ public class Fragment_the_movie_overview extends Fragment {
 
     private DocumentReference movie_data_add = db.collection("shopping").document();
     private DocumentReference movie_data_remove = db.collection("shopping").document();
+
+
+    String date_today = "";
 
 
     public Fragment_the_movie_overview() {
@@ -125,8 +133,40 @@ public class Fragment_the_movie_overview extends Fragment {
         TextView release_date = view.findViewById(R.id.textview_release_date_overview);
         release_date.setText("Date release : "+the_string_movie.getRelease_date().toString().trim());
 
+        // get the date today
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+        LocalDate localDate = LocalDate.now();
+        date_today = dtf.format(localDate);
+
+        String average = the_string_movie.getVote_average().toString();
+
+        if (!date_today.equals("") && !the_string_movie.getRelease_date().equals("")) {
+            String release = the_string_movie.release_date.toString();
+            try {
+
+                Log.d("current_date", "onResponse: " + date_today);
+                SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+                Date d1 = sdformat.parse(date_today);
+                Date d2 = sdformat.parse(release);
+                if (d1.compareTo(d2) > 0) {
+                    Log.d("date_res", "onResponse: Date 1 occurs after Date 2");
+
+
+                } else if (d1.compareTo(d2) < 0) {
+                    Log.d("date_res", "onResponse: Date 1 occurs before Date 2");
+                    if (the_string_movie.getVote_average().equals("0")){
+                        average = "don't release yet";
+                    }
+                } else if (d1.compareTo(d2) == 0) {
+                    Log.d("date_res", "onResponse: Both dates are equal");
+                }
+            } catch (ParseException e) {
+                e.getMessage();
+            }
+        }
         TextView average_text_overview = view.findViewById(R.id.textview_vote_average_overview);
-        average_text_overview.setText("average : " + the_string_movie.getVote_average().toString().trim());
+
+        average_text_overview.setText("average : " + average);
 
         TextView language_text_overview = view.findViewById(R.id.textview_language_overview);
         language_text_overview.setText("language : " + the_string_movie.getOriginal_language().toString().trim());
